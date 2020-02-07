@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+list
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="container">
+        <div class="row">
+            {% for category in categories %}
+                {% include "Main/includes/CardInclude.html" %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

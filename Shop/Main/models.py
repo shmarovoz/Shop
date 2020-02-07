@@ -5,10 +5,16 @@ from Accounts.models import *
 class Category(models.Model):
     title = models.CharField(max_length=60, unique=True)
     description = models.TextField(blank=True, null=True)
+    categories = models.ForeignKey('Category', on_delete=models.PROTECT, blank=True, null=True,
+                                   related_name='subcategories')
+    image = models.ImageField(upload_to='categories/')
 
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+
+    def __str__(self):
+        return self.title
 
 
 class Basket(models.Model):
@@ -26,7 +32,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/')
     available = models.BooleanField(default=True)
     categories = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products')
-    baskets = models.ForeignKey(Basket, on_delete=models.PROTECT, related_name='products')
+    baskets = models.ForeignKey(Basket, on_delete=models.PROTECT, related_name='products', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -34,3 +40,6 @@ class Product(models.Model):
         ordering = ('-created',)
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+
+    def __str__(self):
+        return self.title
